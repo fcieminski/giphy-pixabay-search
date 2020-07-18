@@ -35,7 +35,7 @@ app.get("/search", async (req, res) => {
         const giphy = axios.get("http://api.giphy.com/v1/gifs/search", {
             params: {
                 q: search,
-                key: GIPHY_KEY,
+                api_key: GIPHY_KEY,
                 limit: per_page,
                 offset,
             },
@@ -51,7 +51,7 @@ app.get("/search", async (req, res) => {
         });
 
         const promisesSettled = await Promise.allSettled([giphy, pixabay]);
-        const errors = promisesSettled.filter(({ status }) => status === "rejected").map((response) => response.reason.message);
+        const errors = promisesSettled.filter(({ status }) => status === "rejected").map((response) => response.reason);
         const results = promisesSettled.filter(({ status }) => status === "fulfilled").map((response) => response.value);
 
         if (results.length !== 0) {

@@ -1,7 +1,7 @@
 <template>
 	<div class="input__container">
-		<form class="container__box">
-			<input placeholder="Cmon, search already!" class="box__input" type="text" />
+		<form @submit.prevent="handleSubmit" class="container__box">
+			<input placeholder="Cmon, search already!" class="box__input" v-model="search" type="text" />
 			<button type="submit" class="box__search-button">
 				<i class="material-icons material-icons--light">search</i>
 			</button>
@@ -13,11 +13,19 @@
 	export default {
 		name: "SearchForm",
 		data() {
-			return {};
+			return {
+				search: ""
+			};
 		},
 		components: {},
 		created() {},
 		computed: {},
-		methods: {}
+		methods: {
+			handleSubmit() {
+				if (this.search) {
+					this.$emit("onDataReady", this.search);
+				}
+			}
+		}
 	};
 </script>
