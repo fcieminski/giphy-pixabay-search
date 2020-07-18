@@ -1,4 +1,4 @@
-# fullstack-vue
+# client
 
 ## Project setup
 ```
