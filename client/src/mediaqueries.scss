@@ -1,0 +1,17 @@
+#container {
+    @media (min-width: $sm) {
+        .box__giph {
+            width: 50%;
+        }
+    }
+    @media (min-width: $md) {
+        .box__giph {
+            width: 33.33%;
+        }
+    }
+    @media (min-width: $lg) {
+        .box__giph {
+            width: 25%;
+        }
+    }
+}
