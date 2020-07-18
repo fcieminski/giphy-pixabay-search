@@ -14,6 +14,7 @@
 		<main>
 			<section id="container" class="giphs">
 				<strong class="loading__box">LOADING...</strong>
+				<masonry-container />
 			</section>
 		</main>
 	</div>
@@ -21,6 +22,7 @@
 
 <script>
 	import SearchForm from "./components/SearchForm.vue";
+	import MasonryContainer from "./components/MasonryContainer.vue";
 	export default {
 		name: "App",
 		data() {
@@ -31,7 +33,8 @@
 			};
 		},
 		components: {
-			SearchForm
+			SearchForm,
+			MasonryContainer
 		}
 	};
 </script>
