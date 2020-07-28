@@ -13,8 +13,13 @@
 		</header>
 		<main>
 			<section id="container" class="giphs">
-				<strong class="loading__box">LOADING...</strong>
-				<masonry-container :results="results" :error="error" :loadingMoreElements="loadingMoreElements" />
+				<strong v-if="loading" class="loading__box">LOADING...</strong>
+				<masonry-container
+					v-else-if="results.length !== 0 && !error"
+					:results="results"
+					:error="error"
+					:loadingMoreElements="loadingMoreElements"
+				/>
 			</section>
 		</main>
 	</div>
@@ -32,12 +37,15 @@
 				error: null,
 				results: [],
 				query: null,
-				loadingMoreElements: false
+				loadingMoreElements: false,
 			};
 		},
 		components: {
 			SearchForm,
-			MasonryContainer
+			MasonryContainer,
+		},
+		created() {
+			window.addEventListener("scroll", this.handleScroll);
 		},
 		watch: {
 			query(value) {
@@ -45,7 +53,7 @@
 					this.error = null;
 					this.fetchImagesAndGiphs(value);
 				}
-			}
+			},
 		},
 		methods: {
 			fetchImagesAndGiphs({ search, page, offset, resultPerPage }) {
@@ -53,18 +61,18 @@
 					this.loading = true;
 				}
 				fetch(
-					`http://localhost:8082/search?search=${search}&page=${page}&offset=${offset}&per_page=${resultPerPage}}`,
+					`http://localhost:8082/search?search=${search}&page=${page}&offset=${offset}&per_page=${resultPerPage}`,
 					{
-						method: "GET"
+						method: "GET",
 					}
 				)
-					.then(response => {
+					.then((response) => {
 						if (!response.ok) {
 							throw new Error(response.statusText);
 						}
 						return response.json();
 					})
-					.then(data => {
+					.then((data) => {
 						const { imagesAndGiphs, errors } = data;
 						this.results = [...this.results, ...imagesAndGiphs];
 						if (errors.length !== 0) {
@@ -78,15 +86,26 @@
 						this.loading = false;
 						this.loadingMoreElements = false;
 					})
-					.catch(error => {
+					.catch((error) => {
 						this.error = error;
 					});
 			},
 			searchForElements(search) {
 				this.results = [];
 				this.query = { search, resultPerPage: 10, offset: 0, page: 1 };
-			}
-		}
+			},
+			handleScroll() {
+				const scollMaxY = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+				if (scollMaxY - 10 < window.scrollY && this.loadingMoreElements === false) {
+					this.loadingMoreElements = true;
+					this.query = {
+						...this.query,
+						offset: this.query.offset + this.query.resultPerPage,
+						page: this.query.page + 1,
+					};
+				}
+			},
+		},
 	};
 </script>
 

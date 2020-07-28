@@ -30,7 +30,6 @@ const processPixabay = (hits) => {
 
 app.get("/search", async (req, res) => {
     const { search, page, offset, per_page } = req.query;
-
     try {
         const giphy = axios.get("http://api.giphy.com/v1/gifs/search", {
             params: {

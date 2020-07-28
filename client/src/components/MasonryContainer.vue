@@ -9,23 +9,21 @@
 <script>
 	export default {
 		name: "MasonryContainer",
-		data() {
-			return {};
-		},
 		props: {
 			results: {
 				type: Array,
-				default: () => []
+				default: () => [],
 			},
+
 			error: {
 				type: String,
-				default: ""
+				default: "",
 			},
 
 			loadingMoreElements: {
 				type: Boolean,
-				default: false
-			}
+				default: false,
+			},
 		},
 	};
 </script>

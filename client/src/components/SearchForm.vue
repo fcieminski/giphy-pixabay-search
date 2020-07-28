@@ -14,7 +14,7 @@
 		name: "SearchForm",
 		data() {
 			return {
-				search: ""
+				search: "",
 			};
 		},
 		components: {},
@@ -25,7 +25,7 @@
 				if (this.search) {
 					this.$emit("onDataReady", this.search);
 				}
-			}
-		}
+			},
+		},
 	};
 </script>
